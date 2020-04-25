@@ -1,0 +1,64 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2020-04-25T15:53:56Z'
+  labels:
+    app: business-content-service
+  name: business-content-service
+  namespace: eol-dev
+  resourceVersion: '658094912'
+  selfLink: >-
+    /apis/build.openshift.io/v1/namespaces/eol-dev/buildconfigs/business-content-service
+  uid: f88f247d-870c-11ea-bf7a-0645a759894e
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'business-content-service:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/venkatmca008/business-content-service.git'
+    sourceSecret:
+      name: github
+    type: Git
+  strategy:
+    sourceStrategy:
+      env:
+        - name: RDS_HOSTNAME
+          value: quantumairlines.mysql.database.azure.com
+        - name: RDS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: RDS_USERNAME
+              name: azuremysql
+        - name: RDS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: RDS_USERNAME
+              name: azuremysql
+      from:
+        kind: ImageStreamTag
+        name: 'nodejs:10'
+        namespace: openshift
+    type: Source
+  triggers:
+    - generic:
+        secret: d42dcb087c770486
+      type: Generic
+    - github:
+        secret: f0979b5ff96c46c0
+      type: GitHub
+    - imageChange:
+        lastTriggeredImageID: >-
+          docker-registry.default.svc:5000/openshift/nodejs@sha256:f9fc086894a2d9b8b13888fef1d9cdd70245b655743707257f32ad456771f1ba
+      type: ImageChange
+    - type: ConfigChange
+status:
+  lastVersion: 10

@@ -1,0 +1,38 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    haproxy.router.openshift.io/timeout: 4m
+    openshift.io/host.generated: 'true'
+    template.openshift.io/expose-uri: 'http://{.spec.host}{.spec.path}'
+  creationTimestamp: '2020-04-24T06:35:51Z'
+  labels:
+    app: jenkins-persistent
+    template: jenkins-persistent-template
+  name: jenkins
+  namespace: eol-dev
+  resourceVersion: '656766129'
+  selfLink: /apis/route.openshift.io/v1/namespaces/eol-dev/routes/jenkins
+  uid: d77ba901-85f5-11ea-9f16-068b91999b6e
+spec:
+  host: jenkins-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+  port:
+    targetPort: web
+  tls:
+    insecureEdgeTerminationPolicy: Allow
+    termination: edge
+  to:
+    kind: Service
+    name: jenkins
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+    - conditions:
+        - lastTransitionTime: '2020-04-24T06:35:51Z'
+          status: 'True'
+          type: Admitted
+      host: jenkins-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+      routerCanonicalHostname: elb.e4ff.pro-eu-west-1.openshiftapps.com
+      routerName: router
+      wildcardPolicy: None

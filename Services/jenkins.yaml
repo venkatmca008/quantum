@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.openshift.io/dependencies: '[{"name": "jenkins-jnlp", "namespace": "", "kind": "Service"}]'
+    service.openshift.io/infrastructure: 'true'
+  creationTimestamp: '2020-04-24T06:35:53Z'
+  labels:
+    app: jenkins-persistent
+    template: jenkins-persistent-template
+  name: jenkins
+  namespace: eol-dev
+  resourceVersion: '656766657'
+  selfLink: /api/v1/namespaces/eol-dev/services/jenkins
+  uid: d8957124-85f5-11ea-9f16-068b91999b6e
+spec:
+  clusterIP: 172.30.210.238
+  ports:
+    - name: web
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    name: jenkins
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

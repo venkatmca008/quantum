@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2020-04-25T16:01:40Z'
+  labels:
+    app: composition-engine
+  name: composition-engine
+  namespace: eol-dev
+  resourceVersion: '657965075'
+  selfLink: /api/v1/namespaces/eol-dev/services/composition-engine
+  uid: 0ccde360-870e-11ea-bf7a-0645a759894e
+spec:
+  clusterIP: 172.30.97.107
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    deploymentconfig: composition-engine
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

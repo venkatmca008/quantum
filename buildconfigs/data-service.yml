@@ -1,0 +1,48 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2020-04-25T15:43:50Z'
+  labels:
+    app: data-service
+  name: data-service
+  namespace: eol-dev
+  resourceVersion: '658016693'
+  selfLink: /apis/build.openshift.io/v1/namespaces/eol-dev/buildconfigs/data-service
+  uid: 8ef8ad82-870b-11ea-a42c-0601fd422288
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'data-service:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/venkatmca008/data-service.git'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'nodejs:10'
+        namespace: openshift
+    type: Source
+  triggers:
+    - imageChange:
+        lastTriggeredImageID: >-
+          docker-registry.default.svc:5000/openshift/nodejs@sha256:f9fc086894a2d9b8b13888fef1d9cdd70245b655743707257f32ad456771f1ba
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: 9011eb9cb6ae4f61
+      type: Generic
+    - github:
+        secret: e2956afe70ec055e
+      type: GitHub
+status:
+  lastVersion: 2

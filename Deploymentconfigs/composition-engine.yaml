@@ -1,0 +1,101 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2020-04-25T16:01:40Z'
+  generation: 11
+  labels:
+    app: composition-engine
+  name: composition-engine
+  namespace: eol-dev
+  resourceVersion: '658090255'
+  selfLink: >-
+    /apis/apps.openshift.io/v1/namespaces/eol-dev/deploymentconfigs/composition-engine
+  uid: 0ccdc308-870e-11ea-9f16-068b91999b6e
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: composition-engine
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: composition-engine
+        deploymentconfig: composition-engine
+    spec:
+      containers:
+        - env:
+            - name: FILGHTSCHEDULE
+              value: >-
+                https://business-content-service-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com/api/flightschedule
+            - name: PORT
+              value: '8080'
+            - name: PAGERDUTY
+              valueFrom:
+                secretKeyRef:
+                  key: pagerduty
+                  name: pagerduty
+          image: >-
+            docker-registry.default.svc:5000/eol-dev/composition-engine@sha256:606b6a1ae6664e01efedc752e26691c5ede68c901e18690a9e8e0b6885acc40a
+          imagePullPolicy: Always
+          name: composition-engine
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - composition-engine
+        from:
+          kind: ImageStreamTag
+          name: 'composition-engine:latest'
+          namespace: eol-dev
+        lastTriggeredImage: >-
+          docker-registry.default.svc:5000/eol-dev/composition-engine@sha256:606b6a1ae6664e01efedc752e26691c5ede68c901e18690a9e8e0b6885acc40a
+      type: ImageChange
+    - type: ConfigChange
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: '2020-04-25T16:06:41Z'
+      lastUpdateTime: '2020-04-25T16:06:41Z'
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2020-04-25T19:14:36Z'
+      lastUpdateTime: '2020-04-25T19:14:39Z'
+      message: replication controller "composition-engine-10" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+  details:
+    causes:
+      - type: ConfigChange
+    message: config change
+  latestVersion: 10
+  observedGeneration: 11
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1

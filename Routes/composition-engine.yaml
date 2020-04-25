@@ -1,0 +1,36 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    openshift.io/host.generated: 'true'
+  creationTimestamp: '2020-04-25T16:01:40Z'
+  labels:
+    app: composition-engine
+  name: composition-engine
+  namespace: eol-dev
+  resourceVersion: '657973597'
+  selfLink: /apis/route.openshift.io/v1/namespaces/eol-dev/routes/composition-engine
+  uid: 0cbcc688-870e-11ea-a42c-0601fd422288
+spec:
+  host: composition-engine-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+  port:
+    targetPort: 8080-tcp
+  tls:
+    insecureEdgeTerminationPolicy: Allow
+    termination: edge
+  to:
+    kind: Service
+    name: composition-engine
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+    - conditions:
+        - lastTransitionTime: '2020-04-25T16:01:40Z'
+          status: 'True'
+          type: Admitted
+      host: composition-engine-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+      routerCanonicalHostname: elb.e4ff.pro-eu-west-1.openshiftapps.com
+      routerName: router
+      wildcardPolicy: None

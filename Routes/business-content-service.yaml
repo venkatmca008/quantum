@@ -1,0 +1,37 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    openshift.io/host.generated: 'true'
+  creationTimestamp: '2020-04-25T15:53:56Z'
+  labels:
+    app: business-content-service
+  name: business-content-service
+  namespace: eol-dev
+  resourceVersion: '657973453'
+  selfLink: >-
+    /apis/route.openshift.io/v1/namespaces/eol-dev/routes/business-content-service
+  uid: f88d71a9-870c-11ea-a42c-0601fd422288
+spec:
+  host: business-content-service-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+  port:
+    targetPort: 8080-tcp
+  tls:
+    insecureEdgeTerminationPolicy: Allow
+    termination: edge
+  to:
+    kind: Service
+    name: business-content-service
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+    - conditions:
+        - lastTransitionTime: '2020-04-25T15:53:56Z'
+          status: 'True'
+          type: Admitted
+      host: business-content-service-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+      routerCanonicalHostname: elb.e4ff.pro-eu-west-1.openshiftapps.com
+      routerName: router
+      wildcardPolicy: None

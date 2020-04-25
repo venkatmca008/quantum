@@ -1,0 +1,33 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: '2020-04-24T09:28:42Z'
+  labels:
+    app: grafana
+  name: grafana
+  namespace: eol-dev
+  resourceVersion: '656789265'
+  selfLink: /apis/route.openshift.io/v1/namespaces/eol-dev/routes/grafana
+  uid: fd05498f-860d-11ea-9f16-068b91999b6e
+spec:
+  host: grafana-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+  port:
+    targetPort: 3000-tcp
+  tls:
+    insecureEdgeTerminationPolicy: Allow
+    termination: edge
+  to:
+    kind: Service
+    name: grafana
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+    - conditions:
+        - lastTransitionTime: '2020-04-24T09:28:42Z'
+          status: 'True'
+          type: Admitted
+      host: grafana-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com
+      routerCanonicalHostname: elb.e4ff.pro-eu-west-1.openshiftapps.com
+      routerName: router
+      wildcardPolicy: None

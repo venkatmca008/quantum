@@ -1,0 +1,51 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2020-04-25T16:01:40Z'
+  labels:
+    app: composition-engine
+  name: composition-engine
+  namespace: eol-dev
+  resourceVersion: '658085563'
+  selfLink: >-
+    /apis/build.openshift.io/v1/namespaces/eol-dev/buildconfigs/composition-engine
+  uid: 0cbcfb4e-870e-11ea-a42c-0601fd422288
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'composition-engine:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/venkatmca008/composition-engine.git'
+    sourceSecret:
+      name: github
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'nodejs:10'
+        namespace: openshift
+    type: Source
+  triggers:
+    - generic:
+        secret: 110791eaecb753a6
+      type: Generic
+    - github:
+        secret: 09ac97358bbe1da4
+      type: GitHub
+    - imageChange:
+        lastTriggeredImageID: >-
+          docker-registry.default.svc:5000/openshift/nodejs@sha256:f9fc086894a2d9b8b13888fef1d9cdd70245b655743707257f32ad456771f1ba
+      type: ImageChange
+    - type: ConfigChange
+status:
+  lastVersion: 4

@@ -1,0 +1,62 @@
+apiVersion: v1
+data:
+  prometheus.rules: |
+    groups:
+    - name: example-rules
+      interval: 30s # defaults to global interval
+      rules:
+      - alert: Node Down
+        expr: up{job="kubernetes-nodes"} == 0
+        annotations:
+          miqTarget: "ContainerNode"
+          severity: "HIGH"
+          message: "{{$labels.instance}} is down"
+  prometheus.yml: |-
+    rule_files:
+      - 'prometheus.rules'
+
+    global:
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      evaluation_interval: 15s
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets: []
+        scheme: http
+        timeout: 10s
+    scrape_configs:
+
+
+    - job_name: blackbox
+      scrape_interval: 300s
+      scrape_timeout: 250s    
+      metrics_path: /prometheus
+      params:
+        module: [http_2xx]
+      static_configs:
+      - targets:
+        - jenkins.eol-dev.svc.cluster.local:8080
+
+    - job_name: prometheus
+      scrape_interval: 300s
+      scrape_timeout: 250s
+      metrics_path: /metrics
+      scheme: http
+      static_configs:
+      - targets:
+        - localhost:9090
+
+    - job_name: "pushgateway"
+      scrape_interval: "60s"
+      
+      static_configs:
+      - targets: ['pushgateway-eol-dev.e4ff.pro-eu-west-1.openshiftapps.com']    
+kind: ConfigMap
+metadata:
+  creationTimestamp: '2020-04-24T06:51:35Z'
+  name: prometheus
+  namespace: eol-dev
+  resourceVersion: '656771721'
+  selfLink: /api/v1/namespaces/eol-dev/configmaps/prometheus
+  uid: 0a30351f-85f8-11ea-a42c-0601fd422288
